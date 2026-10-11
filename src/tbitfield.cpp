@@ -154,12 +154,10 @@ TBitField TBitField::operator&(const TBitField &bf) const // операция "�
     int maxLen = (BitLen > bf.BitLen) ? BitLen: bf.BitLen;
     TBitField temp(maxLen);
 
-    for (int i = 0; i< MemLen; i++) {
-        temp.pMem[i] = pMem[i];
-    }
-
-    for (int i = 0; i< bf.MemLen; i++) {
-        temp.pMem[i] &= bf.pMem[i];
+    int minMemLen = (MemLen < bf.MemLen) ? MemLen : bf.MemLen;
+    
+    for (int i = 0; i < minMemLen; i++) {
+        temp.pMem[i] = pMem[i] & bf.pMem[i];
     }
 
     return temp;
@@ -221,7 +219,7 @@ std::istream &operator>>(std::istream &istr, TBitField &bf) // ввод
 
 std::ostream &operator<<(std::ostream &ostr, const TBitField &bf) // вывод
 {
-    for (int i = bf.GetLength(); i>=0;  i++) {
+    for (int i = 0; i<bf.GetLength();  i++) {
         ostr << bf.GetBit(i);
     }
     return ostr;
